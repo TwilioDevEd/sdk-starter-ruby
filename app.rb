@@ -20,22 +20,22 @@ get '/' do
 end
 
 # Render video page
-get '/video' do
+get '/video/' do
     redirect '/video/index.html'
 end
 
 # Render notify page
-get '/notify' do
+get '/notify/' do
     redirect '/notify/index.html'
 end
 
-# Render IP messaging page
-get '/ipmessaging' do
-    redirect '/ipmessaging/index.html'
+# Render Chat page
+get '/chat/' do
+    redirect '/chat/index.html'
 end
 
 # Render sync page
-get '/sync' do
+get '/sync/' do
     redirect '/sync/index.html'
 end
 
@@ -49,7 +49,7 @@ get '/config' do
         TWILIO_GCM_CREDENTIAL_SID: ENV['TWILIO_GCM_CREDENTIAL_SID'],
         TWILIO_API_KEY: ENV['TWILIO_API_KEY']   ,
         TWILIO_API_SECRET: ENV['TWILIO_API_SECRET'] != '',
-        TWILIO_IPM_SERVICE_SID: ENV['TWILIO_IPM_SERVICE_SID'],
+        TWILIO_CHAT_SERVICE_SID: ENV['TWILIO_CHAT_SERVICE_SID'],
         TWILIO_SYNC_SERVICE_SID: ENV['TWILIO_SYNC_SERVICE_SID'],
         TWILIO_CONFIGURATION_SID: ENV['TWILIO_CONFIGURATION_SID']
     }.to_json
@@ -73,15 +73,15 @@ get '/token' do
     token.add_grant grant
   end
 
-  # Grant the access token IP Messaging capabilities (if available)
-  if params['device'] && ENV['TWILIO_IPM_SERVICE_SID']
+  # Grant the access token Chat capabilities (if available)
+  if params['device'] && ENV['TWILIO_CHAT_SERVICE_SID']
     # Create a unique ID for the client on their current device
     device = params['device']
     endpoint_id = "TwilioChatDemo:#{identity}:#{device}"
 
-    # Create the IP Messaging Grant
+    # Create the Chat Grant
     grant = Twilio::JWT::AccessToken::IpMessagingGrant.new
-    grant.service_sid = ENV['TWILIO_IPM_SERVICE_SID']
+    grant.service_sid = ENV['TWILIO_CHAT_SERVICE_SID']
     grant.endpoint_id = endpoint_id
     token.add_grant grant
   end
