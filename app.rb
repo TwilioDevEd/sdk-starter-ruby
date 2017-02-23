@@ -125,7 +125,7 @@ post '/register' do
     response = {
       message: 'Binding created!',
     }
-    response.to_json
+    json response
   rescue Twilio::REST::TwilioException => e
     puts e.message
     status 500
@@ -133,12 +133,13 @@ post '/register' do
       message: "Failed to create binding: #{e.message}",
       error: e.message
     }
-    response.to_json
+    json response
   end
 end
 
 # Notify - send a notification from a POST HTTP request
 post '/send-notification' do
+  
   # Authenticate with Twilio
   client = Twilio::REST::Client.new(
       ENV['TWILIO_API_KEY'],
@@ -159,7 +160,7 @@ post '/send-notification' do
     response = {
       message: 'Notification Sent!',
     }
-    response.to_json
+    json response
   rescue Twilio::REST::TwilioException => e
     puts e.message
     status 500
@@ -167,6 +168,6 @@ post '/send-notification' do
       message: "Failed to send notification: #{e.message}",
       error: e.message
     }
-    response.to_json
+    json response
   end
 end
