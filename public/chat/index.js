@@ -1,5 +1,5 @@
 $(function() {
-    // Get handle to the chat div 
+    // Get handle to the chat div
     var $chatWindow = $('#messages');
 
     // Our interface to the Chat service
@@ -41,53 +41,50 @@ $(function() {
     print('Logging in...');
 
     // Get an access token for the current user, passing a username (identity)
-    // and a device ID - for browser-based apps, we'll always just use the 
+    // and a device ID - for browser-based apps, we'll always just use the
     // value "browser"
     $.getJSON('/token', {
         device: 'browser'
     }, function(data) {
         // Alert the user they have been assigned a random username
         username = data.identity;
-        print('You have been assigned a random username of: ' 
+        print('You have been assigned a random username of: '
             + '<span class="me">' + username + '</span>', true);
 
         // Initialize the Chat client
         chatClient = new Twilio.Chat.Client(data.token);
-        chatClient.getUserChannels().then(createOrJoinGeneralChannel);        
+        chatClient.getUserChannels().then(createOrJoinGeneralChannel);
     });
 
     function createOrJoinGeneralChannel() {
-        // Get the general chat channel, which is where all the messages are
-        // sent in this simple application
-        print('Attempting to join "general" chat channel...');
-        var promise = chatClient.getChannelByUniqueName('general');
-        promise.then(function(channel) {
-            generalChannel = channel;
-            if (!generalChannel) {
-                // If it doesn't exist, let's create it
-                console.log('Creating general channel');
-                chatClient.createChannel({
-                    uniqueName: 'general',
-                    friendlyName: 'General Chat Channel'
-                }).then(function(channel) {
-                    console.log('Created general channel:');
-                    console.log(channel);
-                    generalChannel = channel;
-                    setupChannel();
-                });
-            } else {
-                console.log('Found general channel:');
-                console.log(generalChannel);
-                setupChannel();
-            }
+      // Get the general chat channel, which is where all the messages are
+      // sent in this simple application
+      print('Attempting to join "general" chat channel...');
+      var promise = chatClient.getChannelByUniqueName('another');
+      promise.then(function(channel) {
+        generalChannel = channel;
+        console.log('Found another channel:');
+        console.log(generalChannel);
+        setupChannel();
+      }).catch(function(){
+        console.log('Creating another channel');
+        chatClient.createChannel({
+          uniqueName: 'another',
+          friendlyName: 'Another Chat Channel'
+        }).then(function(channel) {
+          console.log('Created another channel:');
+          console.log(channel);
+          generalChannel = channel;
+          setupChannel();
         });
+      });
     }
 
     // Set up channel after it has been found
     function setupChannel() {
         // Join the general channel
         generalChannel.join().then(function(channel) {
-            print('Joined channel as ' 
+            print('Joined channel as '
                 + '<span class="me">' + username + '</span>.', true);
         });
 
