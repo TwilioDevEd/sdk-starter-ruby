@@ -80,7 +80,6 @@ get '/token' do
     # Create the Chat Grant
     grant = Twilio::JWT::AccessToken::IpMessagingGrant.new
     grant.service_sid = ENV['TWILIO_CHAT_SERVICE_SID']
-    grant.endpoint_id = endpoint_id
     token.add_grant grant
   end
   
