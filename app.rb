@@ -72,10 +72,7 @@ get '/token' do
   end
 
   # Grant the access token Chat capabilities (if available)
-  if params['device'] && ENV['TWILIO_CHAT_SERVICE_SID']
-    # Create a unique ID for the client on their current device
-    device = params['device']
-    endpoint_id = "TwilioChatDemo:#{identity}:#{device}"
+  if ENV['TWILIO_CHAT_SERVICE_SID']
 
     # Create the Chat Grant
     grant = Twilio::JWT::AccessToken::IpMessagingGrant.new
@@ -84,15 +81,11 @@ get '/token' do
   end
   
   # Grant the access token Sync capabilities (if available)
-  if params['device'] && ENV['TWILIO_SYNC_SERVICE_SID']
-    # Create a unique ID for the client on their current device
-    device = params['device']
-    endpoint_id = "TwilioSyncDemo:#{identity}:#{device}"
+  if ENV['TWILIO_SYNC_SERVICE_SID']
 
     # Create the Sync Grant
     grant = Twilio::JWT::AccessToken::SyncGrant.new
     grant.service_sid = ENV['TWILIO_SYNC_SERVICE_SID']
-    grant.endpoint_id = endpoint_id
     token.add_grant grant
   end
   # Generate the token and send to client
