@@ -48,8 +48,7 @@ get '/config' do
         TWILIO_API_KEY: ENV['TWILIO_API_KEY']   ,
         TWILIO_API_SECRET: ENV['TWILIO_API_SECRET'] != '',
         TWILIO_CHAT_SERVICE_SID: ENV['TWILIO_CHAT_SERVICE_SID'],
-        TWILIO_SYNC_SERVICE_SID: ENV['TWILIO_SYNC_SERVICE_SID'],
-        TWILIO_CONFIGURATION_SID: ENV['TWILIO_CONFIGURATION_SID']
+        TWILIO_SYNC_SERVICE_SID: ENV['TWILIO_SYNC_SERVICE_SID']
     }.to_json
 end
 
@@ -65,11 +64,8 @@ get '/token' do
   ENV['TWILIO_API_KEY'], ENV['TWILIO_API_SECRET'], 3600, identity
 
   # Grant the access token Video capabilities (if available)
-  if ENV['TWILIO_CONFIGURATION_SID']
-    grant = Twilio::JWT::AccessToken::ConversationsGrant.new
-    grant.configuration_profile_sid = ENV['TWILIO_CONFIGURATION_SID']
-    token.add_grant grant
-  end
+  grant = Twilio::JWT::AccessToken::VideoGrant.new
+  token.add_grant grant
 
   # Grant the access token Chat capabilities (if available)
   if ENV['TWILIO_CHAT_SERVICE_SID']
@@ -79,7 +75,7 @@ get '/token' do
     grant.service_sid = ENV['TWILIO_CHAT_SERVICE_SID']
     token.add_grant grant
   end
-  
+
   # Grant the access token Sync capabilities (if available)
   if ENV['TWILIO_SYNC_SERVICE_SID']
 
@@ -131,7 +127,7 @@ end
 
 # Notify - send a notification from a POST HTTP request
 post '/send-notification' do
-  
+
   # Authenticate with Twilio
   client = Twilio::REST::Client.new(
       ENV['TWILIO_API_KEY'],
