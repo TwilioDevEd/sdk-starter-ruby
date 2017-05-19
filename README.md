@@ -69,7 +69,7 @@ bundle exec ruby app.rb
 
 Your application should now be running at [http://localhost:4567/](http://localhost:4567/).
 
-![Home Screen](https://cloud.githubusercontent.com/assets/809856/23171215/8107bd9e-f817-11e6-94c5-2b132d798fae.png)
+![Home Screen](https://cloud.githubusercontent.com/assets/809856/26252870/0bfd80ac-3c77-11e7-9252-2b19dff5d784.png)
 
 Check your config values, and follow the links to the demo applications!
 
