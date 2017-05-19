@@ -65,7 +65,6 @@ get '/token' do
 
   # Grant the access token Video capabilities (if available)
   grant = Twilio::JWT::AccessToken::VideoGrant.new
-  grant.room = 'default room'
   token.add_grant grant
 
   # Grant the access token Chat capabilities (if available)
