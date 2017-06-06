@@ -143,7 +143,7 @@ post '/send-notification' do
   begin
     binding = service.notifications.create(
       identity: params[:identity],
-      body: 'Hello, ' + params[:identity] + '!'
+      body: 'Hello, world!'
     )
     response = {
       message: 'Notification Sent!',
