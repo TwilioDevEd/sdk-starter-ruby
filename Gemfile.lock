@@ -1,16 +1,25 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    activesupport (4.2.7.1)
+      i18n (~> 0.7)
+      json (~> 1.7, >= 1.7.7)
+      minitest (~> 5.1)
+      thread_safe (~> 0.3, >= 0.3.4)
+      tzinfo (~> 1.1)
     backports (3.6.8)
     builder (3.2.3)
     dotenv (2.1.1)
+    facets (3.1.0)
     faker (1.6.6)
       i18n (~> 0.5)
     faraday (0.12.1)
       multipart-post (>= 1.2, < 3)
     git-version-bump (0.15.1)
     i18n (0.7.0)
+    json (1.7.7)
     jwt (1.5.6)
+    minitest (5.9.1)
     multi_json (1.12.1)
     multipart-post (2.0.0)
     rack (1.6.4)
@@ -32,17 +41,22 @@ GEM
       rack-test
       sinatra (~> 1.4.0)
       tilt (>= 1.3, < 3)
+    thread_safe (0.3.5)
     tilt (2.0.5)
     twilio-ruby (5.0.0.rc19)
       builder (>= 2.1.2)
       faraday (~> 0.9)
       jwt (~> 1.0)
+    tzinfo (1.2.2)
+      thread_safe (~> 0.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  activesupport
   dotenv
+  facets
   faker
   rack-contrib
   sinatra
@@ -50,4 +64,4 @@ DEPENDENCIES
   twilio-ruby (~> 5.0.x)
 
 BUNDLED WITH
-   1.14.6
+   1.15.1
