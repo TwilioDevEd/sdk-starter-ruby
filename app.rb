@@ -5,7 +5,6 @@ require 'dotenv'
 require 'faker'
 require 'rack/contrib'
 require 'facets/string/snakecase'
-require 'active_support/core_ext/hash/indifferent_access'
 
 # Load environment configuration
 Dotenv.load
