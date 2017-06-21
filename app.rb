@@ -60,7 +60,7 @@ get '/token' do
   # Create a random username for the client
   identity = Faker::Internet.user_name
 
-  token = generate_identity(identity)
+  token = generate_token(identity)
 
   # Generate the token and send to client
   json :identity => identity, :token => token
@@ -70,7 +70,7 @@ end
 post '/token' do
   identity = params[:identity]
 
-  token = generate_identity(identity)
+  token = generate_token(identity)
 
   # Generate the token and send to client
   json :identity => identity, :token => token
@@ -146,7 +146,7 @@ post '/send-notification' do
   end
 end
 
-def generate_identity(identity)
+def generate_token(identity)
   # Create an access token which we will sign and return to the client
   token = Twilio::JWT::AccessToken.new ENV['TWILIO_ACCOUNT_SID'],
   ENV['TWILIO_API_KEY'], ENV['TWILIO_API_SECRET'], 3600, identity
