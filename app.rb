@@ -61,7 +61,7 @@ get '/token' do
 
   # Create an access token which we will sign and return to the client
   token = Twilio::JWT::AccessToken.new ENV['TWILIO_ACCOUNT_SID'],
-  ENV['TWILIO_API_KEY'], ENV['TWILIO_API_SECRET'], 3600, identity
+  ENV['TWILIO_API_KEY'], ENV['TWILIO_API_SECRET'], identity: identity
 
   # Grant the access token Video capabilities (if available)
   grant = Twilio::JWT::AccessToken::VideoGrant.new
