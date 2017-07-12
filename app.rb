@@ -114,7 +114,7 @@ post '/register' do
       message: 'Binding created!',
     }
     json response
-  rescue Twilio::REST::TwilioException => e
+  rescue Twilio::REST::TwilioError => e
     puts e.message
     status 500
     response = {
@@ -149,7 +149,7 @@ post '/send-notification' do
       message: 'Notification Sent!',
     }
     json response
-  rescue Twilio::REST::TwilioException => e
+  rescue Twilio::REST::TwilioError => e
     puts e.message
     status 500
     response = {
