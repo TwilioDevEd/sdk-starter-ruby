@@ -49,7 +49,7 @@ DEPENDENCIES
   rack-contrib
   sinatra
   sinatra-contrib
-  twilio-ruby (~> 5.0.0.rc26)
+  twilio-ruby (= 5.0.0.rc26)
 
 BUNDLED WITH
    1.15.1
