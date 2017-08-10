@@ -59,6 +59,7 @@ get '/token' do
   # Create a random username for the client
   identity = Faker::Internet.user_name
 
+  # Create an access token which we will sign and return to the client
   token = generate_token(identity)
 
   # Generate the token and send to client
@@ -99,7 +100,7 @@ post '/register' do
       message: 'Binding created!',
     }
     json response
-  rescue Twilio::REST::TwilioException => e
+  rescue Twilio::REST::TwilioError => e
     puts e.message
     status 500
     response = {
@@ -134,7 +135,7 @@ post '/send-notification' do
       message: 'Notification Sent!',
     }
     json response
-  rescue Twilio::REST::TwilioException => e
+  rescue Twilio::REST::TwilioError => e
     puts e.message
     status 500
     response = {
