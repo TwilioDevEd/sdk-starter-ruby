@@ -3,6 +3,7 @@ GEM
   specs:
     backports (3.6.8)
     dotenv (2.1.1)
+    facets (3.1.0)
     faker (1.6.6)
       i18n (~> 0.5)
     faraday (0.12.1)
@@ -43,6 +44,7 @@ PLATFORMS
 
 DEPENDENCIES
   dotenv
+  facets
   faker
   rack-contrib
   sinatra

@@ -4,6 +4,7 @@ require 'sinatra/json'
 require 'dotenv'
 require 'faker'
 require 'rack/contrib'
+require 'facets/string/snakecase'
 
 # Load environment configuration
 Dotenv.load
@@ -53,39 +54,26 @@ get '/config' do
 end
 
 # Generate an Access Token for an application user - it generates a random
-# username for the client requesting a token, and takes a device ID as a query
-# parameter.
+# username for the client requesting a token
 get '/token' do
   # Create a random username for the client
   identity = Faker::Internet.user_name
 
   # Create an access token which we will sign and return to the client
-  token = Twilio::JWT::AccessToken.new ENV['TWILIO_ACCOUNT_SID'],
-  ENV['TWILIO_API_KEY'], ENV['TWILIO_API_SECRET'], identity: identity
+  token = generate_token(identity)
 
-  # Grant the access token Video capabilities (if available)
-  grant = Twilio::JWT::AccessToken::VideoGrant.new
-  token.add_grant grant
-
-  # Grant the access token Chat capabilities (if available)
-  if ENV['TWILIO_CHAT_SERVICE_SID']
-
-    # Create the Chat Grant
-    grant = Twilio::JWT::AccessToken::IpMessagingGrant.new
-    grant.service_sid = ENV['TWILIO_CHAT_SERVICE_SID']
-    token.add_grant grant
-  end
-
-  # Grant the access token Sync capabilities (if available)
-  if ENV['TWILIO_SYNC_SERVICE_SID']
-
-    # Create the Sync Grant
-    grant = Twilio::JWT::AccessToken::SyncGrant.new
-    grant.service_sid = ENV['TWILIO_SYNC_SERVICE_SID']
-    token.add_grant grant
-  end
   # Generate the token and send to client
-  json :identity => identity, :token => token.to_jwt
+  json :identity => identity, :token => token
+end
+
+# Generate an Access Token for an application user with the provided identity
+post '/token' do
+  identity = params[:identity]
+
+  token = generate_token(identity)
+
+  # Generate the token and send to client
+  json :identity => identity, :token => token
 end
 
 # Notify - create a device binding from a POST HTTP request
@@ -103,13 +91,11 @@ post '/register' do
     ENV['TWILIO_NOTIFICATION_SERVICE_SID']
   )
 
+  params_hash = snake_case_keys(params)
+  params_hash = symbolize_keys(params_hash)
+
   begin
-    binding = service.bindings.create(
-      endpoint: params[:endpoint],
-      identity: params[:identity],
-      binding_type: params[:BindingType],
-      address: params[:Address]
-    )
+    binding = service.bindings.create(params_hash)
     response = {
       message: 'Binding created!',
     }
@@ -140,11 +126,11 @@ post '/send-notification' do
     ENV['TWILIO_NOTIFICATION_SERVICE_SID']
   )
 
+  params_hash = snake_case_keys(params)
+  params_hash = symbolize_keys(params_hash)
+
   begin
-    binding = service.notifications.create(
-      identity: params[:identity],
-      body: 'Hello, world!'
-    )
+    binding = service.notifications.create(params_hash)
     response = {
       message: 'Notification Sent!',
     }
@@ -158,4 +144,46 @@ post '/send-notification' do
     }
     json response
   end
+end
+
+def generate_token(identity)
+  # Create an access token which we will sign and return to the client
+  token = Twilio::JWT::AccessToken.new ENV['TWILIO_ACCOUNT_SID'],
+  ENV['TWILIO_API_KEY'], ENV['TWILIO_API_SECRET'], 3600, identity
+
+  # Grant the access token Video capabilities (if available)
+  grant = Twilio::JWT::AccessToken::VideoGrant.new
+  token.add_grant grant
+
+  # Grant the access token Chat capabilities (if available)
+  if ENV['TWILIO_CHAT_SERVICE_SID']
+
+    # Create the Chat Grant
+    grant = Twilio::JWT::AccessToken::IpMessagingGrant.new
+    grant.service_sid = ENV['TWILIO_CHAT_SERVICE_SID']
+    token.add_grant grant
+  end
+
+  # Grant the access token Sync capabilities (if available)
+  if ENV['TWILIO_SYNC_SERVICE_SID']
+
+    # Create the Sync Grant
+    grant = Twilio::JWT::AccessToken::SyncGrant.new
+    grant.service_sid = ENV['TWILIO_SYNC_SERVICE_SID']
+    token.add_grant grant
+  end
+  return token.to_jwt
+end
+
+def symbolize_keys(h)
+  # Use the symbolize names argument of parse to convert String keys to Symbols
+  return JSON.parse(JSON.generate(h), symbolize_names: true)
+end
+
+def snake_case_keys(h)
+  newh = Hash.new
+  h.keys.each do |key|
+    newh[key.snakecase] = h[key]
+  end
+  return newh
 end
