@@ -49,7 +49,7 @@ get '/config' do
         TWILIO_API_KEY: ENV['TWILIO_API_KEY']   ,
         TWILIO_API_SECRET: ENV['TWILIO_API_SECRET'] != '',
         TWILIO_CHAT_SERVICE_SID: ENV['TWILIO_CHAT_SERVICE_SID'],
-        TWILIO_SYNC_SERVICE_SID: ENV['TWILIO_SYNC_SERVICE_SID']
+        TWILIO_SYNC_SERVICE_SID: ENV['TWILIO_SYNC_SERVICE_SID'] || 'default'
     }.to_json
 end
 
@@ -164,14 +164,11 @@ def generate_token(identity)
     token.add_grant grant
   end
 
-  # Grant the access token Sync capabilities (if available)
-  if ENV['TWILIO_SYNC_SERVICE_SID']
+  # Create the Sync Grant
+  sync_grant = Twilio::JWT::AccessToken::SyncGrant.new
+  sync_grant.service_sid = ENV['TWILIO_SYNC_SERVICE_SID'] || 'default'
+  token.add_grant sync_grant
 
-    # Create the Sync Grant
-    grant = Twilio::JWT::AccessToken::SyncGrant.new
-    grant.service_sid = ENV['TWILIO_SYNC_SERVICE_SID']
-    token.add_grant grant
-  end
   return token.to_jwt
 end
 
