@@ -184,3 +184,10 @@ def snake_case_keys(h)
   end
   return newh
 end
+
+# Ensure that the Sync Default Service is provisioned
+def provision_sync_default_service()
+  client = Twilio::REST::Client.new(ENV['TWILIO_API_KEY'], ENV['TWILIO_API_SECRET'], ENV['TWILIO_ACCOUNT_SID'])
+  client.sync.v1.services('default').fetch
+end
+provision_sync_default_service
