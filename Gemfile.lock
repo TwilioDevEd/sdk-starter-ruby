@@ -6,14 +6,16 @@ GEM
     facets (3.1.0)
     faker (1.6.6)
       i18n (~> 0.5)
-    faraday (0.12.1)
+    faraday (0.15.1)
       multipart-post (>= 1.2, < 3)
     git-version-bump (0.15.1)
     i18n (0.7.0)
-    jwt (1.5.6)
-    libxml-ruby (3.0.0)
+    jwt (2.1.0)
+    mini_portile2 (2.3.0)
     multi_json (1.12.1)
     multipart-post (2.0.0)
+    nokogiri (1.8.2)
+      mini_portile2 (~> 2.3.0)
     rack (1.6.4)
     rack-contrib (1.4.0)
       git-version-bump (~> 0.15)
@@ -34,10 +36,10 @@ GEM
       sinatra (~> 1.4.0)
       tilt (>= 1.3, < 3)
     tilt (2.0.5)
-    twilio-ruby (5.0.0.rc26)
+    twilio-ruby (5.10.1)
       faraday (~> 0.9)
-      jwt (~> 1.5)
-      libxml-ruby (= 3.0.0)
+      jwt (>= 1.5, <= 2.5)
+      nokogiri (>= 1.6, < 2.0)
 
 PLATFORMS
   ruby
@@ -49,4 +51,7 @@ DEPENDENCIES
   rack-contrib
   sinatra
   sinatra-contrib
-  twilio-ruby (= 5.0.0.rc26)
+  twilio-ruby (= 5.10.1)
+
+BUNDLED WITH
+   1.16.1
