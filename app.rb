@@ -87,7 +87,7 @@ post '/register' do
   )
 
   # Reference a valid notification service
-  service = client.notify.v1.services(
+  service = client.notify.services(
     ENV['TWILIO_NOTIFICATION_SERVICE_SID']
   )
 
@@ -122,7 +122,7 @@ post '/send-notification' do
   )
 
   # Reference a valid notification service
-  service = client.notify.v1.services(
+  service = client.notify.services(
     ENV['TWILIO_NOTIFICATION_SERVICE_SID']
   )
 
