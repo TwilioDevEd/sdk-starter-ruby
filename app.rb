@@ -159,7 +159,7 @@ def generate_token(identity)
   if ENV['TWILIO_CHAT_SERVICE_SID']
 
     # Create the Chat Grant
-    grant = Twilio::JWT::AccessToken::IpMessagingGrant.new
+    grant = Twilio::JWT::AccessToken::ChatGrant.new
     grant.service_sid = ENV['TWILIO_CHAT_SERVICE_SID']
     token.add_grant grant
   end
