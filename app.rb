@@ -67,6 +67,16 @@ get '/token' do
 end
 
 # Generate an Access Token for an application user with the provided identity
+get '/token/:identity' do
+  identity = params[:identity]
+
+  token = generate_token(identity)
+
+  # Generate the token and send to client
+  json :identity => identity, :token => token
+end
+
+# Generate an Access Token for an application user with the provided identity
 post '/token' do
   identity = params[:identity]
 
