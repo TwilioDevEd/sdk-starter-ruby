@@ -56,4 +56,4 @@ DEPENDENCIES
   twilio-ruby (~> 5.36.0)
 
 BUNDLED WITH
-   1.16.2
+   2.1.4
