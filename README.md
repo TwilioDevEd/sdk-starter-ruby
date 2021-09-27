@@ -7,7 +7,7 @@
 This sample project demonstrates how to use Twilio APIs in a Ruby web
 application. Once the app is up and running, check out [the home page](http://localhost:4567)
 to see which demos you can run. You'll find examples for [Chat](https://www.twilio.com/chat),
-[Video](https://www.twilio.com/video), [Sync](https://www.twilio.com/sync), and more.
+[Notify](https://www.twilio.com/notify), and [Sync](https://www.twilio.com/sync).
 
 Let's get started!
 
