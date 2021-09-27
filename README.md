@@ -38,6 +38,14 @@ Every sample in the demo requires some basic credentials from your Twilio accoun
 When you generate an API key pair at the URLs above, your API Secret will only be shown once -
 make sure to save this information in a secure location, or possibly your `~/.bash_profile`.
 
+### Configure Development vs Production Settings
+
+By default, this application will run in production mode - stack traces will not be visible in the web browser. If you would like to run this application in development locally, change the `APP_ENV` variable in your `.env` file.
+
+`APP_ENV=development`
+
+For more about development vs production, visit [Sinatra's configuration page](http://sinatrarb.com/configuration.html).
+
 ### Configure product-specific settings
 
 Depending on which demos you'd like to run, you may need to configure a few more values in your `.env` file.

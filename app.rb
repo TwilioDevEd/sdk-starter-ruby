@@ -9,6 +9,10 @@ require 'facets/string/snakecase'
 # Load environment configuration
 Dotenv.load
 
+# Set the environment after dotenv loads
+# Default to production
+set :environment, (ENV['APP_ENV'] || ENV['RACK_ENV'] || :production).to_sym
+
 # Set public folder
 set :public_folder, 'public'
 
