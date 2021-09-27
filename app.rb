@@ -20,11 +20,6 @@ get '/' do
     redirect '/index.html'
 end
 
-# Render video page
-get '/video/' do
-    redirect '/video/index.html'
-end
-
 # Render notify page
 get '/notify/' do
     redirect '/notify/index.html'
@@ -165,10 +160,6 @@ def generate_token(identity)
   # Create an access token which we will sign and return to the client
   token = Twilio::JWT::AccessToken.new ENV['TWILIO_ACCOUNT_SID'],
   ENV['TWILIO_API_KEY'], ENV['TWILIO_API_SECRET'], identity: identity
-
-  # Grant the access token Video capabilities (if available)
-  grant = Twilio::JWT::AccessToken::VideoGrant.new
-  token.add_grant grant
 
   # Grant the access token Chat capabilities (if available)
   if ENV['TWILIO_CHAT_SERVICE_SID']
