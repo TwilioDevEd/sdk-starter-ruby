@@ -139,8 +139,13 @@ post '/send-notification' do
   params_hash = snake_case_keys(params)
   params_hash = symbolize_keys(params_hash)
 
+  puts params_hash
+
   begin
-    binding = service.notifications.create(params_hash)
+    binding = service.notifications.create(
+      body: params_hash['body'], 
+      identity: params_hash['identity']
+    )
     response = {
       message: 'Notification Sent!',
     }
