@@ -19,6 +19,14 @@ set :public_folder, 'public'
 # Parse JSON Body parts into params
 use ::Rack::PostBodyContentTypeParser
 
+configure do
+    enable :cross_origin
+end
+
+before do
+    response.headers['Access-Control-Allow-Origin'] = '*'
+end
+
 # Render home page
 get '/' do
     redirect '/index.html'
